@@ -36,30 +36,31 @@ public class WordControllerTest {
     @Test
     public void testGetWordCount() throws Exception {
         String inputString = "Mary Mary David David Mark";
-        String expectedJson = "[{\"word\":\"David\",\"count\":2},\n" +
-                "{\"word\":\"Mary\",\"count\":2},\n" +
-                "{\"word\":\"Mark\",\"count\":1}]\n" +
+        String expectedJson = "[{\"value\":\"David\",\"count\":2},\n" +
+                "{\"value\":\"Mary\",\"count\":2},\n" +
+                "{\"value\":\"Mark\",\"count\":1}]\n" +
                 "}\n";
 
         String inputJson = "{\"text\":\"Mary Mary David David Mark\"}";
 
-        Word word1 = new Word();
-        word1.setWord("Mary");
-        word1.setCount(2);
-
-        Word word2 = new Word();
-        word2.setWord("David");
-        word2.setCount(2);
-
-        Word word3 = new Word();
-        word3.setWord("Mark");
-        word3.setCount(1);
+        Word word1 = new Word("Mary",2);
+        Word word2 = new Word("David",2);
+        Word word3 = new Word("Mark",1);
 
         when(wordService.calculateWordCount(inputString)).thenReturn(Arrays.asList(word1, word2, word3));
 
-        mockMvc.perform(put("/wordcount").
+        mockMvc.perform(put("/words").
                 contentType(MediaType.APPLICATION_JSON).content(inputJson)).
                 andExpect(status().isOk()).andExpect(content()
                 .json(expectedJson));
+    }
+
+    @Test
+    public void testGetWordCount_WithInvalidInput() throws Exception {
+        String invalidInputJson = "{\"text\":\"\"}";
+
+        mockMvc.perform(put("/words").
+                contentType(MediaType.APPLICATION_JSON).content(invalidInputJson)).
+                andExpect(status().isBadRequest());
     }
 }

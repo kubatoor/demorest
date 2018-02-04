@@ -1,10 +1,10 @@
 package com.demo.rest.model;
 
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import org.hibernate.validator.constraints.NotEmpty;
 
 @Data
 public class InputMessage {
+    @NotEmpty
     String text;
 }
