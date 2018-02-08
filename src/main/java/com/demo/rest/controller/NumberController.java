@@ -4,9 +4,7 @@ import com.demo.rest.service.NumberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -20,9 +18,9 @@ public class NumberController {
         this.numberService = numberService;
     }
 
-    @PutMapping
-    public ResponseEntity<List<Integer>> getNFibonnacci(int number){
-        final List<Integer> nFibonnacci = numberService.getNFibonnacci(number);
+    @GetMapping("/fibonacci/{maxcount}")
+    public ResponseEntity<List<Long>> getNFibonnacci(@PathVariable("maxcount") int maxCount){
+        final List<Long> nFibonnacci = numberService.getNFibonnacci(maxCount);
         return new ResponseEntity<>(nFibonnacci, HttpStatus.OK);
     }
 }
