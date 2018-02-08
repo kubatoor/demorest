@@ -37,7 +37,7 @@ public class NumberControllerTest {
         int maxCount = 9;
         String expectedJson = "[0,1,1,2,3,5,8,13,21]";
         when(numberService.getNFibonnacci(maxCount)).thenReturn(Arrays.asList(0L, 1L, 1L, 2L, 3L, 5L, 8L, 13L, 21L));
-        mockMvc.perform(get("/number/fibonacci/" + maxCount)).andExpect(status().isOk()).andExpect(content().json(expectedJson));
+        mockMvc.perform(get("/numbers/fibonacci/" + maxCount)).andExpect(status().isOk()).andExpect(content().json(expectedJson));
     }
 
     @Test
@@ -45,12 +45,12 @@ public class NumberControllerTest {
         int maxCount = 0;
         String expectedJson = "[]";
         when(numberService.getNFibonnacci(maxCount)).thenReturn(new ArrayList<>());
-        mockMvc.perform(get("/number/fibonacci/" + maxCount)).andExpect(status().isOk()).andExpect(content().json(expectedJson));
+        mockMvc.perform(get("/numbers/fibonacci/" + maxCount)).andExpect(status().isOk()).andExpect(content().json(expectedJson));
     }
 
     @Test
     public void getNFibonnacci_WithOutInput() throws Exception {
-        mockMvc.perform(get("/number/fibonacci/")).andExpect(status().isNotFound());
+        mockMvc.perform(get("/numbers/fibonacci/")).andExpect(status().isNotFound());
     }
 
 }

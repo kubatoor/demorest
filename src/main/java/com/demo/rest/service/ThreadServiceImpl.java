@@ -1,5 +1,6 @@
 package com.demo.rest.service;
 
+import com.demo.rest.exception.DeadLockCreationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -25,12 +26,11 @@ public class ThreadServiceImpl implements ThreadService{
 
         Thread t1 = new Thread(() -> {
             String threadName = Thread.currentThread().getName();
-            while(true) {
-                synchronized (resource1) {
-                    LOG.info(threadName + "Acquired Lock on Resource1");
-                    synchronized (resource2) {
-                        LOG.info(threadName + "Acquired Lock on Resource2");
-                    }
+            synchronized (resource1) {
+                LOG.info(threadName + "Acquired Lock on Resource1");
+                sleepForSpecifiedSeconds(3);
+                synchronized (resource2) {
+                    LOG.info(threadName + "Acquired Lock on Resource2");
                 }
             }
         });
@@ -38,23 +38,25 @@ public class ThreadServiceImpl implements ThreadService{
 
         Thread t2 = new Thread(() -> {
             String threadName = Thread.currentThread().getName();
-            while (true){
-                synchronized (resource2){
-                    LOG.info(threadName+"Acquired Lock on Resource2");
-                    synchronized (resource1){
-                        LOG.info(threadName+"Acquired Lock on Resource1");
-                    }
+            synchronized (resource2){
+                LOG.info(threadName+"Acquired Lock on Resource2");
+                sleepForSpecifiedSeconds(3);
+                synchronized (resource1){
+                    LOG.info(threadName+"Acquired Lock on Resource1");
                 }
             }
+           /* while (true){
+
+            }*/
         });
 
         t1.start();
         t2.start();
-        sleepForSpecifiedSeconds(10);
+        sleepForSpecifiedSeconds(5);
         if(deadLockExists()){
             return "Successfully DeadLocked"+"\n"+getDeadLockInfo();
         } else{
-            return "Unable to create DeadLock. Try Again";
+            throw new DeadLockCreationException("Could not create a deadlock in 10 secs");
         }
     }
 

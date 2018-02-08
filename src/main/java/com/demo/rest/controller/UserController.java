@@ -1,8 +1,10 @@
 package com.demo.rest.controller;
 
 import com.demo.rest.entity.User;
+import com.demo.rest.exception.UserNotFoundException;
 import com.demo.rest.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.config.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,9 +23,12 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/{email}")
-    public ResponseEntity<User> getUserByEmail(@PathVariable("email") String email){
-        final User user = userService.getUserByEmail(email);
+    @GetMapping("/{userid}")
+    public ResponseEntity<User> getUserById(@PathVariable("userid") String userId){
+        final User user = userService.getUserById(userId);
+        if(user==null){
+            throw new UserNotFoundException("The specified user is not found");
+        }
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
@@ -35,7 +40,7 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity createUser(@RequestBody @Valid User user) {
-        if(userService.getUserByEmail(user.getEmail())!=null){
+        if(userService.getUserById(user.getEmail())!=null){
             userService.saveUser(user);
             return new ResponseEntity(HttpStatus.OK);
         } else {
@@ -44,9 +49,9 @@ public class UserController {
         }
     }
 
-    @DeleteMapping("/{email}")
-    public ResponseEntity deleteUser(@PathVariable("email") String email){
-        userService.deleteUserByEmail(email);
+    @DeleteMapping("/{userid}")
+    public ResponseEntity deleteUser(@PathVariable("userid") String userId){
+        userService.deleteUserById(userId);
         return new ResponseEntity(HttpStatus.OK);
     }
 

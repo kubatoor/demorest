@@ -13,8 +13,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/threads")
 public class ThreadController {
 
+    private final ThreadService threadService;
+
     @Autowired
-    private ThreadService threadService;
+    public ThreadController(final ThreadService threadService) {
+        this.threadService = threadService;
+    }
 
     @PutMapping("/deadlock")
     public ResponseEntity<String> createDeadLock() {

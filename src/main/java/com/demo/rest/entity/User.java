@@ -12,10 +12,10 @@ import javax.validation.constraints.Min;
 @Entity
 public class User {
     @Id
+    @NotEmpty
+    private String userId;
     @Email
     private String email;
     @NotEmpty
     private String name;
-    @Min(1)
-    private int age;
 }

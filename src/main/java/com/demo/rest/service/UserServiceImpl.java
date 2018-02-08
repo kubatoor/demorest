@@ -20,8 +20,8 @@ public class UserServiceImpl implements UserService{
 
     @Override
     @Transactional
-    public User getUserByEmail(final String email) {
-        return userRepository.findByEmail(email);
+    public User getUserById(final String userId) {
+        return userRepository.findByUserId(userId);
     }
 
     @Override
@@ -32,8 +32,8 @@ public class UserServiceImpl implements UserService{
 
     @Override
     @Transactional
-    public void deleteUserByEmail(final String email) {
-        userRepository.delete(email);
+    public void deleteUserById(final String userId) {
+        userRepository.delete(userId);
     }
 
     @Override
