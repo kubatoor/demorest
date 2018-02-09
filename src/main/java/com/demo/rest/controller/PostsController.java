@@ -20,6 +20,13 @@ public class PostsController {
         this.postService = postService;
     }
 
+    /**
+     * Controller method that return a response entity object containing a list of Posts from
+     * an extnernal site.
+     *
+     * @return ResponseEntity ojbect containing a list of Posts from
+     * an extnernal site.
+     */
     @GetMapping("/posts")
     public ResponseEntity<List<Post>> getAllPosts(){
         return new ResponseEntity<>(postService.getAllPosts(), HttpStatus.OK);

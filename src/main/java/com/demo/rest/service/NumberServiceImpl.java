@@ -8,6 +8,13 @@ import java.util.List;
 @Service
 public class NumberServiceImpl implements NumberService {
 
+    /**
+     * This method takes in a number N and generates a List containing N fibonacci series
+     *
+     * @param maxCount
+     * @return list containing the N fibonacci series
+     */
+
     @Override
     public List<Long> getNFibonnacci(final int maxCount) {
         List<Long> fibonacciList = new ArrayList<>();

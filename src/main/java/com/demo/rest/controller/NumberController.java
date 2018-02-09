@@ -18,6 +18,12 @@ public class NumberController {
         this.numberService = numberService;
     }
 
+    /**
+     * Controller method that provides a list of N fibonacci numbers
+     *
+     * @param maxCount the number N required for generating N fibonacci numbers
+     * @return a ResponseEnity object containing the list N fibonacci numbers
+     */
     @GetMapping("/fibonacci/{maxcount}")
     public ResponseEntity<List<Long>> getNFibonnacci(@PathVariable("maxcount") int maxCount){
         final List<Long> nFibonnacci = numberService.getNFibonnacci(maxCount);

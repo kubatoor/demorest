@@ -20,12 +20,22 @@ public class ThreadController {
         this.threadService = threadService;
     }
 
+    /**
+     * controller method for creating deadlock in the system. This method is idempotent in the sense that if the system
+     * already has an existing deadlock then a new DeadLock is not created. Instead it just reports the existing deadlock information.
+     *
+     * @return Deadlock Creation information ResponseEntity
+     */
     @PutMapping("/deadlock")
     public ResponseEntity<String> createDeadLock() {
         final String deadLock = threadService.createDeadLock();
         return new ResponseEntity<>(deadLock, HttpStatus.OK);
     }
 
+    /**
+     * controller method for getting deadlock information from the system
+     * @return Deadlock information ResponseEntity
+     */
     @GetMapping("/deadlock")
     public ResponseEntity<String> getDeadLockInfo(){
         String deadLockInfo = threadService.getDeadLockInfo();

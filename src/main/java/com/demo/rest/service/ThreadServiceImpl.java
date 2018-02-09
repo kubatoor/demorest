@@ -18,6 +18,14 @@ public class ThreadServiceImpl implements ThreadService{
     private final Object resource2 = new Object();
     private Logger LOG = LoggerFactory.getLogger(ThreadService.class);
 
+    /**
+     * This method creates the deadlock in the system. Before deadlock creation it checks if the deadlock already exists.
+     * If the deadlock exists then it return the existing deadlock information including Thread Names, Resource etc.
+     * If Deadlock doesnt exist then it creates one and returns the information of the deadlock created
+     *
+     * @return information of the deadlock created or existing deadlock information
+     */
+
     @Override
     public String createDeadLock() {
         if(deadLockExists()){
@@ -45,9 +53,7 @@ public class ThreadServiceImpl implements ThreadService{
                     LOG.info(threadName+"Acquired Lock on Resource1");
                 }
             }
-           /* while (true){
 
-            }*/
         });
 
         t1.start();
