@@ -13,7 +13,7 @@ gradle bootRun
 
 (1) /helloworld endpoint
 
-This is a simple /helloword endpoint which returns Hello WorLd in the response. Can be executed using the following curl command
+This is a simple /helloword endpoint which returns Hello World in the response. Can be executed using the following curl command
 ```
 curl -v http://localhost:8080/helloworld
 ```
