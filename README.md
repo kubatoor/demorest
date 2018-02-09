@@ -62,7 +62,7 @@ curl -v http://localhost:8080/threads/deadlock
 
 
 (6) /users endpoint
-This endpoint provides the capability to CRUD a User object
+This endpoint provides the capability to CRUD on a User object. It makes use of in-memory HSQL DB for temporary persistence.
 
 (a) Create New User in the System
 
