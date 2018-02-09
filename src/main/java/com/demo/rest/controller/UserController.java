@@ -4,7 +4,6 @@ import com.demo.rest.entity.User;
 import com.demo.rest.exception.UserNotFoundException;
 import com.demo.rest.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.config.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -40,7 +39,7 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity createUser(@RequestBody @Valid User user) {
-        if(userService.getUserById(user.getEmail())!=null){
+        if(userService.getUserById(user.getUserId())!=null){
             userService.saveUser(user);
             return new ResponseEntity(HttpStatus.OK);
         } else {
@@ -51,6 +50,10 @@ public class UserController {
 
     @DeleteMapping("/{userid}")
     public ResponseEntity deleteUser(@PathVariable("userid") String userId){
+        if (userService.getUserById(userId) == null) {
+            throw new UserNotFoundException("The specified user is not found");
+        }
+
         userService.deleteUserById(userId);
         return new ResponseEntity(HttpStatus.OK);
     }
