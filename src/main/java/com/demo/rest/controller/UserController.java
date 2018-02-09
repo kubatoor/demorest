@@ -22,6 +22,13 @@ public class UserController {
         this.userService = userService;
     }
 
+    /**
+     * Controller method to get a user by userId
+     *
+     * @param userId
+     * @return User ResponseEntity
+     */
+
     @GetMapping("/{userid}")
     public ResponseEntity<User> getUserById(@PathVariable("userid") String userId){
         final User user = userService.getUserById(userId);
@@ -31,12 +38,23 @@ public class UserController {
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
+    /**
+     * Gets all Users from the DB
+     * @return all Users Response Entity
+     */
     @GetMapping
     public ResponseEntity<List<User>> getAllUsers(){
         final List<User> allUsers = userService.getAllUsers();
         return new ResponseEntity<>(allUsers, HttpStatus.OK);
     }
 
+    /**
+     * Creates a new User in DB. If an User already exists with the same userId in DB
+     * then it simply replaces that user with the request user.
+     *
+     * @param user
+     * @return
+     */
     @PostMapping
     public ResponseEntity createUser(@RequestBody @Valid User user) {
         if(userService.getUserById(user.getUserId())!=null){
@@ -47,6 +65,15 @@ public class UserController {
             return new ResponseEntity(HttpStatus.CREATED);
         }
     }
+
+    /**
+     * Deletes and existing User. If the user is not found
+     * then it lets Spring boot exception handling to return
+     * Not found Http Status by throwing a Runtime exception
+     *
+     * @param userId Id of the User to be deleted
+     * @return Successful Response Status or Not Found Status.
+     */
 
     @DeleteMapping("/{userid}")
     public ResponseEntity deleteUser(@PathVariable("userid") String userId){
